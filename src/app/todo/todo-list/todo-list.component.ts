@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { Todo } from '../models/todo';
 import { Observable } from 'rxjs';
@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./todo-list.component.css'],
 })
 export class TodoListComponent {
+  
   todos$ = new Observable<Todo[]>();
+  todoService: TodoService = inject(TodoService);
   ngOnInit(): void {
     this.todos$ = this.todoService.getTodo();
     this.todos$.subscribe((todos) => {
@@ -17,22 +19,13 @@ export class TodoListComponent {
         console.log(todo.title);
       });
     });
-
-    
- 
- }
-
- 
-  constructor(private readonly todoService: TodoService) {}
-/*
-  todos = this.todoService.todos;
-
+  }
   updateTodo(todo: Todo) {
     this.todoService.updateTodo(todo);
   }
 
   async newTodo(title: string) {
     await this.todoService.AddTodo(title);
-    this.todos = this.todoService.todos;
-  }*/
+    //this.todos = this.todoService.todos;
+  }
 }
